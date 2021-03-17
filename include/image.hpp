@@ -27,12 +27,9 @@ public:
         return height;
     }
 
-    bool check(int x, int y) const {
-        return (x >= 0 && x < width) && (y >= 0 && y < height);
-    }
-
     const Vector3f &GetPixel(int x, int y) const {
-        assert(check(x, y));
+        assert(x >= 0 && x < width);
+        assert(y >= 0 && y < height);
         return data[y * width + x];
     }
 
@@ -43,21 +40,9 @@ public:
     }
 
     void SetPixel(int x, int y, const Vector3f &color) {
-        if (check(x, y))
-            data[y * width + x] = color;
-    }
-
-    void FlipHorizontal() {
-        int ys = 0;
-        int ye = height - 1;
-        while (ye > ys) {
-            for (int x = 0; x < width; ++x) {
-                Vector3f tmp = data[ys * width + x];
-                data[ys * width + x] = data[ye * width + x];
-                data[ye * width + x] = tmp;
-            }
-            --ye; ++ys;
-        }
+        assert(x >= 0 && x < width);
+        assert(y >= 0 && y < height);
+        data[y * width + x] = color;
     }
 
     static Image *LoadPPM(const char *filename);

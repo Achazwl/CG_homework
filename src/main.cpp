@@ -1,8 +1,17 @@
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
 #include <iostream>
 
-#include "canvas_parser.hpp"
+#include "scene_parser.hpp"
 #include "image.hpp"
-#include "element.hpp"
+#include "camera.hpp"
+#include "group.hpp"
+#include "light.hpp"
+
+#include <string>
 
 using namespace std;
 
@@ -12,18 +21,19 @@ int main(int argc, char *argv[]) {
     }
 
     if (argc != 3) {
-        cout << "Usage: ./PA0 <input canvas file> <output pic path>" << endl;
-        return 0;
+        cout << "Usage: ./bin/PA1 <input scene file> <output bmp file>" << endl;
+        return 1;
     }
+    string inputFile = argv[1];
+    string outputFile = argv[2];  // only bmp is allowed.
 
-    CanvasParser canvasParser(argv[1]);
-    Image renderedImg(canvasParser.getWidth(), canvasParser.getHeight());
-    for (int ei = 0; ei < canvasParser.getNumElement(); ++ei) {
-        canvasParser.getElement(ei)->draw(renderedImg);
-    }
-    renderedImg.FlipHorizontal();
-    renderedImg.SaveImage(argv[2]);
-
+    // TODO: Main RayCasting Logic
+    // First, parse the scene using SceneParser.
+    // Then loop over each pixel in the image, shooting a ray
+    // through that pixel and finding its intersection with
+    // the scene.  Write the color at the intersection to that
+    // pixel in your output image.
+    cout << "Hello! Computer Graphics!" << endl;
     return 0;
 }
 
