@@ -48,7 +48,7 @@ Matrix2f& Matrix2f::operator = ( const Matrix2f& rm )
 {
 	if( this != &rm )
 	{
-		memcpy( m_elements, rm.m_elements, 2 * sizeof( float ) );
+		memcpy( m_elements, rm.m_elements, 4 * sizeof( float ) );
 	}
 	return *this;
 }
