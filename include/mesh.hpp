@@ -25,7 +25,7 @@ public:
     std::vector<Vector3f> v; // nodes
     std::vector<TriangleIndex> t; // which 3 nodes index above form a triangle
     std::vector<Vector3f> n; // use computeNormal below after init triangle, calc their normal vector
-    bool intersect(const Ray &r, Hit &h, float tmin) override;
+    bool intersect(const Ray &ray, Hit &hit, float tmin) override;
 
 private:
 

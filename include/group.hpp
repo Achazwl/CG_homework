@@ -15,10 +15,10 @@ public:
     explicit Group (int num_objects) : objs(num_objects) { }
     ~Group() override { }
 
-    bool intersect(const Ray &r, Hit &h, float tmin) override {
+    bool intersect(const Ray &ray, Hit &hit, float tmin) override {
         bool result = false;
         for (auto obj : objs) {
-            result |= obj->intersect(r, h, tmin);
+            result |= obj->intersect(ray, hit, tmin);
         }
         return result;
     }

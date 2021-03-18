@@ -26,13 +26,13 @@ public:
     ~Transform() {
     }
 
-    virtual bool intersect(const Ray &r, Hit &h, float tmin) {
-        Vector3f trSource = transformPoint(transform, r.getOrigin());
-        Vector3f trDirection = transformDirection(transform, r.getDirection());
+    virtual bool intersect(const Ray &ray, Hit &hit, float tmin) {
+        Vector3f trSource = transformPoint(transform, ray.getOrigin());
+        Vector3f trDirection = transformDirection(transform, ray.getDirection());
         Ray tr(trSource, trDirection);
-        bool inter = o->intersect(tr, h, tmin);
+        bool inter = o->intersect(tr, hit, tmin);
         if (inter) {
-            h.set(h.getT(), h.getMaterial(), transformDirection(transform.transposed(), h.getNormal()).normalized());
+            hit.set(hit.getT(), hit.getMaterial(), transformDirection(transform.transposed(), hit.getNormal()).normalized());
         }
         return inter;
     }
