@@ -7,8 +7,8 @@
 #include "ray.hpp"
 #include "hit.hpp"
 #include <iostream>
+#include <algorithm>
 
-// TODO: Implement Shade function that computes Phong introduced in class.
 class Material {
 public:
 
@@ -24,17 +24,19 @@ public:
     }
 
 
-    Vector3f Shade(const Ray &ray, const Hit &hit,
-                   const Vector3f &dirToLight, const Vector3f &lightColor) {
+    Vector3f Shade(const Ray &ray, const Hit &hit, const Vector3f &dirToLight, const Vector3f &lightColor) {
         Vector3f shaded = Vector3f::ZERO;
-        // 
-        return shaded;
+        auto tmp = Vector3f::dot(hit.getNormal(), dirToLight)
+        auto diffuse = std::max<float>(0, tmp);
+        auto R = 2 * tmp  * hit.getNormal() - dirToLight;
+        auto specular = pow(std::max<float>(0, Vector3f::dot(-ray.getDirection(), dirToLight)), shininess);
+        return diffuse * diffuseColor + specular * specularColor;
     }
 
 protected:
-    Vector3f diffuseColor;
-    Vector3f specularColor;
-    float shininess;
+    Vector3f diffuseColor; // 漫反射
+    Vector3f specularColor; // 镜面反射
+    float shininess; // 光泽度
 };
 
 
