@@ -27,12 +27,27 @@ int main(int argc, char *argv[]) {
     string inputFile = argv[1];
     string outputFile = argv[2];  // only bmp is allowed.
 
-    // TODO: Main RayCasting Logic
-    // First, parse the scene using SceneParser.
-    // Then loop over each pixel in the image, shooting a ray
-    // through that pixel and finding its intersection with
-    // the scene.  Write the color at the intersection to that
-    // pixel in your output image.
+    auto scene = SceneParser(inputFile.c_str());
+    Image img(scene.getCamera()->getWidth(), scene.getCamera()->getHeight());
+    for (int x = 0; x < scene.getCamera()->getWidth(); ++x)
+        for (int y = 0; y < scene.getCamera()->getHeight(); ++y) {
+            Ray ray = scene.getCamera()->generateRay(Vector2f(x, y));
+            Hit hit;
+            if ( scene.getGroup()->intersect(ray, hit, 0) ) {
+                Vector3f color = Vector3f::ZERO;
+                for (int li = 0; li < scene.getNumLights(); ++li) {
+                    Light* light = scene.getLight(li);
+                    Vector3f L, lightColor;
+                    light->getIllumination(ray.pointAtParameter(hit.getT()), L, lightColor);
+                    color += hit.getMaterial()->Shade(ray, hit, L, lightColor);
+                }
+                img.SetPixel(x, y, color);
+            } else {
+                img.SetPixel(x, y, scene.getBackgroundColor());
+            }
+        }
+//    img.FlipHorizontal();
+    img.SaveImage(argv[2]);
 
     return 0;
 }
