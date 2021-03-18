@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
     // through that pixel and finding its intersection with
     // the scene.  Write the color at the intersection to that
     // pixel in your output image.
-    cout << "Hello! Computer Graphics!" << endl;
+
     return 0;
 }
 
