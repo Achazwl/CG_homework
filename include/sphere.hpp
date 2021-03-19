@@ -18,7 +18,7 @@ public:
         if (d < 0) return false;
         auto t = tp - sqrt(d);
         if (t < tmin || t > hit.getT()) return false;
-        hit.set(t, material, (t * ray.getDirection() - center).normalized());
+        hit.set(t, material, (ray.pointAtParameter(t) - center).normalized());
         return true;
     }
 

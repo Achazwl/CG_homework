@@ -25,7 +25,7 @@ public:
         bool inter = o->intersect(tr, hit, tmin);
         hit.setT(hit.getT() / scale);
         if (inter) {
-            hit.set(hit.getT(), hit.getMaterial(), transformDirection(transform.transposed(), hit.getNormal()).normalized());
+            hit.set(hit.getT(), hit.getMaterial(), transformDirection(transform.transposed(), hit.getNormal()));
         }
         return inter;
     }
