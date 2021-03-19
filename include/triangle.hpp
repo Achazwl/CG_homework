@@ -12,14 +12,12 @@ class Triangle: public Object3D {
 public:
 	Triangle() = delete;
 	Triangle( const Vector3f& a, const Vector3f& b, const Vector3f& c, Material* m) : Object3D(m), vertices{a,b,c} {
-        Vector3f x = vertices[1] - vertices[0];
-        Vector3f y = vertices[2] - vertices[0];
-        normal = Vector3f::cross(a, b).normalized();
+        this->E1 = vertices[0] - vertices[1];
+        this->E2 = vertices[0] - vertices[2];
+        normal = Vector3f::cross(E1, E2).normalized();
     }
 
 	bool intersect(const Ray& ray,  Hit& hit, float tmin) override {
-	    auto E1 = vertices[0] - vertices[1];
-        auto E2 = vertices[0] - vertices[2];
 	    auto S = vertices[0] - ray.getOrigin();
 	    auto div = Matrix3f::determinant3x3(
             ray.getDirection()[0], ray.getDirection()[1], ray.getDirection()[2],
@@ -47,13 +45,16 @@ public:
         if (b < 0 || b > 1) return false;
         if (a + b > 1) return false;
 
-        hit.set(t, material, normal);
+        // Vector3f::dot(ray.dir, normal) == det(ray.dir, E1, E2) where normal=cross(E1, E2)
+        int sgn = div < 0 ? 1 : -1;
+        hit.set(t, material, normal * sgn);
         return true;
 	}
 
 protected:
     Vector3f normal;
     Vector3f vertices[3];
+    Vector3f E1, E2;
 };
 
 #endif //TRIANGLE_H
