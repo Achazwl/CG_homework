@@ -12,9 +12,9 @@ public:
     ~Sphere() override = default;
 
     bool intersect(const Ray &ray, Hit &hit, float tmin) override {
-        Vector3f l = center - ray.getOrigin(); // 3 pm
+        Vector3f l = center - ray.getOrigin();
         auto tp = Vector3f::dot(l, ray.getDirection());
-        auto d = radius * radius - l.length() + tp * tp;
+        auto d = radius * radius - Vector3f::dot(l, l) + tp * tp / Vector3f::dot(ray.getDirection(), ray.getDirection());
         if (d < 0) return false;
         auto t = tp - sqrt(d);
         if (t < tmin || t > hit.getT()) return false;

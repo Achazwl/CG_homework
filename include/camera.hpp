@@ -41,16 +41,19 @@ public:
             x[2], y[2], -_z[2], 0,
             0, 0, 0, 1
         );
+        auto real = tanf(angle/2);
+        this->fx = real / (width/2);
+        this->fy = real / (height/2);
     }
 
     Ray generateRay(const Vector2f &point) override {
-        Vector3f cameraview{point.x(), point.y(), -1};
+        Vector3f cameraview{(point.x()-width/2)*fx, (point.y()-height/2)*fy, -1};
         return Ray(center, Transform::transformDirection(R, cameraview));
     }
 
 protected:
     Matrix4f R; // rotation
-    float fx, fy; // (rad)
+    float fx, fy;
 };
 
 #endif //CAMERA_H
