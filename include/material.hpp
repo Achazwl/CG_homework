@@ -20,11 +20,10 @@ public:
     virtual Vector3f getDiffuseColor() const { return diffuseColor; }
 
     Vector3f Shade(const Ray &ray, const Hit &hit, const Vector3f &dirToLight, const Vector3f &lightColor) {
-        Vector3f shaded = Vector3f::ZERO;
         auto tmp = Vector3f::dot(hit.getNormal(), dirToLight);
         auto diffuse = std::max<float>(0, tmp);
         auto R = 2 * tmp  * hit.getNormal() - dirToLight;
-        auto specular = pow(std::max<float>(0, Vector3f::dot(-ray.getDirection(), dirToLight)), shininess);
+        auto specular = pow(std::max<float>(0, Vector3f::dot(-ray.getDirection(), R)), shininess);
         return lightColor * (diffuse * diffuseColor + specular * specularColor);
     }
 
