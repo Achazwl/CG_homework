@@ -14,15 +14,10 @@ public:
 
     explicit Material(const Vector3f &d_color, const Vector3f &s_color = Vector3f::ZERO, float s = 0) :
             diffuseColor(d_color), specularColor(s_color), shininess(s) {
-
     }
-
     virtual ~Material() = default;
 
-    virtual Vector3f getDiffuseColor() const {
-        return diffuseColor;
-    }
-
+    virtual Vector3f getDiffuseColor() const { return diffuseColor; }
 
     Vector3f Shade(const Ray &ray, const Hit &hit, const Vector3f &dirToLight, const Vector3f &lightColor) {
         Vector3f shaded = Vector3f::ZERO;
@@ -30,7 +25,7 @@ public:
         auto diffuse = std::max<float>(0, tmp);
         auto R = 2 * tmp  * hit.getNormal() - dirToLight;
         auto specular = pow(std::max<float>(0, Vector3f::dot(-ray.getDirection(), dirToLight)), shininess);
-        return diffuse * diffuseColor + specular * specularColor;
+        return lightColor * (diffuse * diffuseColor + specular * specularColor);
     }
 
 protected:

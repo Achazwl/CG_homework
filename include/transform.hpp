@@ -11,6 +11,7 @@ public:
     Transform() = delete;
     Transform(const Matrix4f &m, Object3D *obj) : o(obj) {
         transform = m.inverse();
+        this->scale = m.determinant();
     }
     ~Transform() override = default;
 
@@ -18,7 +19,11 @@ public:
         Vector3f trSource = transformPoint(transform, ray.getOrigin());
         Vector3f trDirection = transformDirection(transform, ray.getDirection());
         Ray tr(trSource, trDirection);
+
+        tmin *= scale;
+        hit.setT(hit.getT() * scale);
         bool inter = o->intersect(tr, hit, tmin);
+        hit.setT(hit.getT() / scale);
         if (inter) {
             hit.set(hit.getT(), hit.getMaterial(), transformDirection(transform.transposed(), hit.getNormal()).normalized());
         }
@@ -32,12 +37,13 @@ public:
 
     static Vector3f transformDirection(const Matrix4f &mat, const Vector3f &dir) {
     // transform a 3D direction using a matrix, returning a direction
-        return (mat * Vector4f(dir, 0)).xyz();
+        return (mat * Vector4f(dir, 0)).xyz().normalized();
     }
 
 protected:
     Object3D *o; //un-transformed object
     Matrix4f transform;
+    float scale;
 };
 
 #endif //TRANSFORM_H

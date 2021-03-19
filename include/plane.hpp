@@ -9,13 +9,13 @@ class Plane : public Object3D {
 public:
     Plane() = delete;
     // given by ax+by+cz=d, tranfer to ax+by+cz+d=0
-    Plane(const Vector3f &normal, float d, Material *m) : Object3D(m), normal(normal), d(-d) { }
+    Plane(const Vector3f &normal, float d, Material *m) : Object3D(m), normal(normal.normalized()), d(-d) { }
     ~Plane() override = default;
 
     bool intersect(const Ray& ray, Hit &hit, float tmin) override {
         auto b = Vector3f::dot(normal, ray.getDirection());
         if (fabs(b) < 1e-7) return false;
-        auto t = -(d + b) / b;
+        auto t = -(d + Vector3f::dot(normal, ray.getOrigin())) / b;
         if (t < tmin || t > hit.getT()) return false;
         hit.set(t, material, normal);
         return true;

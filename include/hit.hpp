@@ -48,6 +48,10 @@ public:
         normal = n;
     }
 
+    void setT(float _t) {
+        t = _t;
+    }
+
 private:
     float t;
     Material *material;
