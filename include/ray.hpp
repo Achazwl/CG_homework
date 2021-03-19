@@ -36,7 +36,7 @@ public:
 private:
 
     Vector3f origin;
-    Vector3f direction;
+    Vector3f direction; // 不normalize， 含长度信息
 
 };
 
