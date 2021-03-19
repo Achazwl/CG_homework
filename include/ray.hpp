@@ -21,11 +21,11 @@ public:
         direction = r.direction;
     }
 
-    const Vector3f &getOrigin() const {
+    const Vector3f& getOrigin() const {
         return origin;
     }
 
-    const Vector3f &getDirection() const {
+    const Vector3f& getDirection() const {
         return direction;
     }
 

@@ -34,7 +34,6 @@ int main(int argc, char *argv[]) {
             Ray ray = scene.getCamera()->generateRay(Vector2f(x, y));
             Hit hit;
             if ( scene.getGroup()->intersect(ray, hit, 0) ) {
-                std::cout << "???" << std::endl;
                 Vector3f color = Vector3f::ZERO;
                 for (int li = 0; li < scene.getNumLights(); ++li) {
                     Light* light = scene.getLight(li);

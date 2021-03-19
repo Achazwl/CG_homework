@@ -14,7 +14,6 @@ bool Mesh::intersect(const Ray &r, Hit &h, float tmin) {
         TriangleIndex& triIndex = t[triId];
         Triangle triangle(v[triIndex[0]],
                           v[triIndex[1]], v[triIndex[2]], material);
-        triangle.normal = n[triId];
         result |= triangle.intersect(r, h, tmin);
     }
     return result;
@@ -78,18 +77,6 @@ Mesh::Mesh(const char *filename, Material *material) : Object3D(material) {
             ss >> texcoord[1];
         }
     }
-    computeNormal();
 
     f.close();
-}
-
-void Mesh::computeNormal() {
-    n.resize(t.size());
-    for (int triId = 0; triId < (int) t.size(); ++triId) {
-        TriangleIndex& triIndex = t[triId];
-        Vector3f a = v[triIndex[1]] - v[triIndex[0]];
-        Vector3f b = v[triIndex[2]] - v[triIndex[0]];
-        b = Vector3f::cross(a, b);
-        n[triId] = b / b.length();
-    }
 }

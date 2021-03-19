@@ -31,7 +31,6 @@ protected:
     int height;
 };
 
-// TODO: Implement Perspective camera
 class PerspectiveCamera : public Camera {
 public:
     PerspectiveCamera(const Vector3f &center, const Vector3f &direction, const Vector3f &up, int imgW, int imgH, float angle)

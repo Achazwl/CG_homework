@@ -12,7 +12,7 @@ class Group : public Object3D {
 public:
 
     Group() : objs(0) { }
-    explicit Group (int num_objects) : objs(num_objects) { }
+    explicit Group (int num_objects) : objs(num_objects) {}
     ~Group() override { }
 
     bool intersect(const Ray &ray, Hit &hit, float tmin) override {
@@ -24,7 +24,7 @@ public:
     }
 
     void addObject(int index, Object3D *obj) {
-        objs.emplace(objs.begin()+index, obj);
+        objs[index] = obj;
     }
 
     int getGroupSize() const { return objs.size(); }

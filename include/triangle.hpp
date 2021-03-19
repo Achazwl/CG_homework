@@ -14,8 +14,7 @@ public:
 	Triangle( const Vector3f& a, const Vector3f& b, const Vector3f& c, Material* m) : Object3D(m), vertices{a,b,c} {
         Vector3f x = vertices[1] - vertices[0];
         Vector3f y = vertices[2] - vertices[0];
-        y = Vector3f::cross(a, b);
-        normal = y.normalized()
+        normal = Vector3f::cross(a, b).normalized();
     }
 
 	bool intersect(const Ray& ray,  Hit& hit, float tmin) override {
@@ -51,6 +50,7 @@ public:
         hit.set(t, material, normal);
         return true;
 	}
+
 protected:
     Vector3f normal;
     Vector3f vertices[3];
