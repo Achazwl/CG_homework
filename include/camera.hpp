@@ -39,15 +39,15 @@ public:
             x[0], y[0], -_z[0], 0,
             x[1], y[1], -_z[1], 0,
             x[2], y[2], -_z[2], 0,
-            0, 0, 0, 1
+            0, 0, 0, 0
         );
         auto real = tanf(angle/2);
-        this->fx = real / (width/2);
-        this->fy = real / (height/2);
+        this->fx = real / (width/2.0);
+        this->fy = real / (height/2.0);
     }
 
     Ray generateRay(const Vector2f &point) override {
-        Vector3f cameraview{(point.x()-width/2)*fx, (point.y()-height/2)*fy, -1};
+        Vector3f cameraview((point.x()-width/2.0)*fx, (point.y()-height/2.0)*fy, -1);
         return Ray(center, Transform::transformDirection(R, cameraview));
     }
 

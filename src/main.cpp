@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
     Image img(scene.getCamera()->getWidth(), scene.getCamera()->getHeight());
     for (int x = 0; x < scene.getCamera()->getWidth(); ++x)
         for (int y = 0; y < scene.getCamera()->getHeight(); ++y) {
-            Ray ray = scene.getCamera()->generateRay(Vector2f(x, y));
+            Ray ray = scene.getCamera()->generateRay(Vector2f(x+0.5, y+0.5)); // pixel center
             Hit hit;
             if ( scene.getGroup()->intersect(ray, hit, 0) ) {
                 Vector3f color = Vector3f::ZERO;
