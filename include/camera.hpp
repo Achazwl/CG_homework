@@ -12,7 +12,7 @@ public:
         this->center = center; // origin
         this->_z = direction.normalized();
         this->y = up.normalized();
-        this->x = Vector3f::cross(this->_z, up);
+        this->x = Vector3f::cross(this->_z, y).normalized();
         this->width = imgW;
         this->height = imgH;
     }
@@ -48,7 +48,7 @@ public:
 
     Ray generateRay(const Vector2f &point) override {
         Vector3f cameraview((point.x()-width/2.0)*fx, (point.y()-height/2.0)*fy, -1);
-        return Ray(center, Transform::transformDirection(R, cameraview));
+        return Ray(center, (R * Vector4f(cameraview, 0)).xyz().normalized());
     }
 
 protected:
