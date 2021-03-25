@@ -19,8 +19,9 @@ public:
         tmin *= scale;
         hit.setT(hit.getT() * scale);
         bool inter = o->intersect(tr, hit, tmin);
+        hit.setT(hit.getT() / scale);
         if (inter) {
-            hit.set(hit.getT() / scale, hit.getMaterial(), transformDirection(transform.transposed(), hit.getNormal()));
+            hit.set(hit.getT(), hit.getMaterial(), transformDirection(transform.transposed(), hit.getNormal()));
         }
         return inter;
     }
