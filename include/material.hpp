@@ -8,6 +8,7 @@
 #include "hit.hpp"
 #include <iostream>
 #include <algorithm>
+#include <glut.h>
 
 class Material {
 public:
@@ -25,6 +26,12 @@ public:
         auto R = 2 * tmp  * hit.getNormal() - dirToLight;
         auto specular = pow(std::max<float>(0, Vector3f::dot(-ray.getDirection(), R)), shininess);
         return lightColor * (diffuse * diffuseColor + specular * specularColor);
+    }
+
+    void Use() { // TODO what
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Vector4f(diffuseColor, 1.0f));
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Vector4f(specularColor, 1.0f));
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, Vector2f(shininess * 4.0, 1.0f));
     }
 
 protected:

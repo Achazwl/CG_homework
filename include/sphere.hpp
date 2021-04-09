@@ -22,6 +22,14 @@ public:
         return true;
     }
 
+    void drawGL() override { // TODO what
+        Object3D::drawGL();
+        glMatrixMode(GL_MODELVIEW); glPushMatrix();
+        glTranslatef(center.x(), center.y(), center.z());
+        glutSolidSphere(radius, 80, 80);
+        glPopMatrix();
+    }
+
 protected:
     Vector3f center;
     float radius;

@@ -36,6 +36,14 @@ public:
         return vec / this->scale;
     }
 
+    void drawGL() override { // TODO what
+        Object3D::drawGL();
+        glMatrixMode(GL_MODELVIEW); glPushMatrix();
+        glMultMatrixf(transform.inverse());
+        o->drawGL();
+        glPopMatrix();
+    }
+
 protected:
     Object3D *o; //un-transformed object
     Matrix4f transform;

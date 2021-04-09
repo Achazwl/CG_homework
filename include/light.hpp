@@ -11,6 +11,7 @@ public:
     virtual ~Light() = default;
 
     virtual void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col) const = 0;
+    virtual void turnOn(int idx) const = 0;
 };
 
 
@@ -32,6 +33,14 @@ public:
         // direction of the directional light source
         dir = -direction;
         col = color;
+    }
+
+    void turnOn(int idx) const override { // TODO what
+        glEnable(GL_LIGHT0 + idx);
+        glLightfv(GL_LIGHT0 + idx, GL_DIFFUSE, Vector4f(color, 1.0));
+        glLightfv(GL_LIGHT0 + idx, GL_SPECULAR, Vector4f(color, 1.0));
+        // Last component is 0.0, indicating directional light.
+        glLightfv(GL_LIGHT0 + idx, GL_POSITION, Vector4f(-direction, 0.0));
     }
 
 private:
@@ -58,6 +67,13 @@ public:
         dir = (position - p);
         dir = dir / dir.length();
         col = color;
+    }
+
+    void turnOn(int idx) const override { // TODO what
+        glEnable(GL_LIGHT0 + idx);
+        glLightfv(GL_LIGHT0 + idx, GL_DIFFUSE, Vector4f(color, 1.0));
+        glLightfv(GL_LIGHT0 + idx, GL_SPECULAR, Vector4f(color, 1.0));
+        glLightfv(GL_LIGHT0 + idx, GL_POSITION, Vector4f(position, 1.0));
     }
 
 private:

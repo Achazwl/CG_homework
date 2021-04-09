@@ -21,6 +21,24 @@ public:
         return true;
     }
 
+    void drawGL() override { // TODO what
+        Object3D::drawGL();
+        Vector3f xAxis = Vector3f::RIGHT;
+        Vector3f yAxis = Vector3f::cross(norm, xAxis);
+        xAxis = Vector3f::cross(yAxis, norm);
+        const float planeSize = 10.0;
+        glBegin(GL_TRIANGLES);
+        glNormal3fv(norm);
+        glVertex3fv(d * norm + planeSize * xAxis + planeSize * yAxis);
+        glVertex3fv(d * norm - planeSize * xAxis - planeSize * yAxis);
+        glVertex3fv(d * norm + planeSize * xAxis - planeSize * yAxis);
+        glNormal3fv(norm);
+        glVertex3fv(d * norm + planeSize * xAxis + planeSize * yAxis);
+        glVertex3fv(d * norm - planeSize * xAxis + planeSize * yAxis);
+        glVertex3fv(d * norm - planeSize * xAxis - planeSize * yAxis);
+        glEnd();
+    }
+
 protected:
     // function: ax+by+cz+d=0 -> n dot p + d = 0
     Vector3f normal;

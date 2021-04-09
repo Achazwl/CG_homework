@@ -51,6 +51,14 @@ public:
         return true;
 	}
 
+    void drawGL() override { // TODO what
+        Object3D::drawGL();
+        glBegin(GL_TRIANGLES);
+        glNormal3fv(normal);
+        glVertex3fv(vertices[0]); glVertex3fv(vertices[1]); glVertex3fv(vertices[2]);
+        glEnd();
+    }
+
 protected:
     Vector3f normal;
     Vector3f vertices[3];

@@ -4,6 +4,7 @@
 #include "ray.hpp"
 #include "hit.hpp"
 #include "material.hpp"
+#include <glut.h>
 
 // Base class for all 3d entities.
 class Object3D {
@@ -14,8 +15,11 @@ public:
 
     virtual bool intersect(const Ray &ray, Hit &hit, float tmin) = 0;
 
-protected:
+    virtual void drawGL() {
+        if (material) material->Use();
+    }
 
+protected:
     Material *material;
 };
 
