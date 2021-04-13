@@ -77,11 +77,13 @@ public:
         return Ray(center, (this->R * cameraview).normalized());
     }
 
+    float getFovy() const { return angle/M_PI*180; }
+
     void setupGLMatrix() override { // TODO what
         Camera::setupGLMatrix();
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        gluPerspective(angle/M_PI*180, cx / cy, 0.01, 100.0);
+        gluPerspective(getFovy(), cx / cy, 0.01, 100.0);
     }
 
     void resize(int w, int h) override { 
