@@ -23,6 +23,12 @@ public:
         return result;
     }
 
+    void drawGL() override {
+        for (auto obj : objs) {
+            obj->drawGL();
+        }
+    }
+
     void addObject(int index, Object3D *obj) {
         objs[index] = obj;
     }

@@ -6,20 +6,7 @@
 #include <utility>
 #include <sstream>
 
-bool Mesh::intersect(const Ray &r, Hit &h, float tmin) {
-
-    // Optional: Change this brute force method into a faster one.
-    bool result = false;
-    for (int triId = 0; triId < (int) t.size(); ++triId) {
-        TriangleIndex& triIndex = t[triId];
-        Triangle triangle(v[triIndex[0]], v[triIndex[1]], v[triIndex[2]], material);
-        result |= triangle.intersect(r, h, tmin);
-    }
-    return result;
-}
-
 Mesh::Mesh(const char *filename, Material *material) : Object3D(material) {
-
     // Optional: Use tiny obj loader to replace this simple one.
     std::ifstream f;
     f.open(filename);

@@ -24,10 +24,22 @@ public:
 
     std::vector<Vector3f> v; // nodes
     std::vector<TriangleIndex> t; // which 3 nodes index above form a triangle
-    bool intersect(const Ray &ray, Hit &hit, float tmin) override;
+    bool intersect(const Ray &r, Hit &h, float tmin) override {
+        bool result = false;
+        for (int triId = 0; triId < (int) t.size(); ++triId) {
+            TriangleIndex& triIndex = t[triId];
+            Triangle triangle(v[triIndex[0]], v[triIndex[1]], v[triIndex[2]], material);
+            result |= triangle.intersect(r, h, tmin);
+        }
+        return result;
+    }
 
-    void drawGL() override {
-        // TODO (PA2): Call drawGL for each individual triangle.
+    void drawGL() override { // TODO change brute force
+        for (int triId = 0; triId < (int) t.size(); ++triId) {
+            TriangleIndex& triIndex = t[triId];
+            Triangle triangle(v[triIndex[0]], v[triIndex[1]], v[triIndex[2]], material);
+            triangle.drawGL();
+        }
     }
 
 private:

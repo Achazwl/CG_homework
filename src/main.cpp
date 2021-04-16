@@ -91,8 +91,9 @@ void drawScene() { // TODO what
     // Setup MODELVIEW Matri
     sceneParser->getCamera()->setupGLMatrix();
 
-    // TODO (PA2): Turn On all lights.
-    // TODO (PA2): Draw elements.
+    for (int idx = 0; idx < sceneParser->getNumLights(); ++idx)
+        sceneParser->getLight(idx)->turnOn(idx);
+    sceneParser->getGroup()->drawGL();
 
     // Dump the image to the screen.
     glutSwapBuffers();
@@ -106,7 +107,7 @@ void drawScene() { // TODO what
 
 float getCenterDepth() { // 深度相机， 先测深度
     Camera *cam = sceneParser->getCamera();
-    Ray centerRay = cam->generateRay(Vector2f(cam->getCx(), cam->getCy());
+    Ray centerRay = cam->generateRay(Vector2f(cam->getCx(), cam->getCy()));
     Hit hit;
     bool isHit = sceneParser->getGroup()->intersect(centerRay, hit, 0.0);
     return isHit ? hit.getT() : 10.0f; // 测不出，就设个默认值

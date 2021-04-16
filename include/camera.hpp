@@ -16,8 +16,7 @@ public:
         this->x = Vector3f::cross(this->_z, y).normalized();
         this->y = Vector3f::cross(this->x, this->_z);
         this->R = Matrix3f(x, y, -_z);
-        this->width = imgW;
-        this->height = imgH;
+        this->resize(imgW, imgH);
     }
     virtual ~Camera() = default;
 
@@ -35,13 +34,11 @@ public:
 
     int getWidth() const { return width; }
     int getHeight() const { return height; }
+    float getCx() const { return cx; }
+    float getCy() const { return cy; }
 
-    void setCenter(const Vector3f& pos) {
-        this->c= pos;
-    }
-    Vector3f getCenter() const {
-        return this->c;
-    }
+    void setCenter(const Vector3f& center) { this->c= center; }
+    Vector3f getCenter() const { return this->c; }
 
     void setRotation(const Matrix3f& mat) { 
         this->x = mat.getCol(0);
@@ -56,6 +53,7 @@ public:
 
     virtual void resize(int w, int h) {
         width = w; height = h;
+        cx = w/ 2., cy = h/ 2.;
     }
 
 protected:
@@ -63,8 +61,8 @@ protected:
     Vector3f x, y, _z; // X, Y, -Z
     Matrix3f R; // rotation
 
-    int width;
-    int height;
+    int width, height;
+    float cx, cy;
 };
 
 class PerspectiveCamera : public Camera {
@@ -77,12 +75,10 @@ public:
 
     Ray generateRay(const Vector2f &point) override {
         Vector3f cameraview((point.x()-cx)*fx, (point.y()-cy)*fy, -1);
-        return Ray(center, (this->R * cameraview).normalized());
+        return Ray(c, (this->getRotation() * cameraview).normalized());
     }
 
     float getFovy() const { return angle/M_PI*180; }
-    float getCx() const { return cx; }
-    float getCy() const { return cy; }
 
     void setupGLMatrix() override {
         Camera::setupGLMatrix(); // base class func
@@ -92,21 +88,18 @@ public:
     }
 
     void resize(int w, int h) override { 
-        width = w; height = h;
+        Camera::resize(w, h);
         gen_perspective();
     }
 
     void gen_perspective() {
         auto real = tanf(angle/2.0f);
-        this->cx = width / 2.0f;
-        this->cy = height / 2.0f;
         this->fx = real / cx;
         this->fy = real / cy;
     }
 
 protected:
-    float angle;
-    float cx, cy, fx, fy;
+    float angle, fx, fy;
 };
 
 #endif //CAMERA_H
