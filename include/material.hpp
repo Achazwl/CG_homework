@@ -28,10 +28,11 @@ public:
         return lightColor * (diffuse * diffuseColor + specular * specularColor);
     }
 
-    void Use() { // TODO what
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Vector4f(diffuseColor, 1.0f));
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Vector4f(specularColor, 1.0f));
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, Vector2f(shininess * 4.0, 1.0f));
+    void Use() { 
+        // 材质应用于正反两面， RGBA(reg, green, blue, alpha)
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, Vector4f(diffuseColor, 1.0f)); // 散射
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, Vector4f(specularColor, 1.0f)); // 镜面反射
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, Vector2f(shininess * 4.0, 1.0f)); // 镜面反射指数 // TODO why two value are passed??????
     }
 
 protected:

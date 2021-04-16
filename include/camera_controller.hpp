@@ -3,11 +3,7 @@
 #include <vecmath.h>
 #include <camera.hpp>
 
-// TODO (PA2-Optional)
-// This class supports only perspective camera.
-// If we want to add support for orthogonal camera, what should we do?
-
-class CameraController {
+class CameraController { // TODO how it works
 
 public:
     typedef enum { NONE, LEFT, MIDDLE, RIGHT } Button;

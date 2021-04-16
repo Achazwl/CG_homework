@@ -4,7 +4,7 @@
 #include <vecmath.h>
 #include "object3d.hpp"
 
-// 用逆变换的射线和obj求交, 注意变换后射线长度的问题
+// 用视角的逆变换， 代替物体的变换
 class Transform : public Object3D {
 public:
     Transform() = delete;
@@ -36,12 +36,13 @@ public:
         return vec / this->scale;
     }
 
-    void drawGL() override { // TODO what
-        Object3D::drawGL();
-        glMatrixMode(GL_MODELVIEW); glPushMatrix();
-        glMultMatrixf(transform.inverse());
-        o->drawGL();
-        glPopMatrix();
+    void drawGL() override {
+        Object3D::drawGL(); // base class func
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix(); {
+            glMultMatrixf(transform.inverse()); // 视角逆变换
+            o->drawGL(); // 在逆变换的视角下看物体
+        } glPopMatrix(); // 还原视角
     }
 
 protected:

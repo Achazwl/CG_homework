@@ -11,11 +11,11 @@ public:
     virtual ~Light() = default;
 
     virtual void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col) const = 0;
-    virtual void turnOn(int idx) const = 0;
+    virtual void turnOn(int idx) const = 0; // idx 0~7
 };
 
 
-class DirectionalLight : public Light {
+class DirectionalLight : public Light { // 平行光
 public:
     DirectionalLight() = delete;
 
@@ -26,20 +26,17 @@ public:
 
     ~DirectionalLight() override = default;
 
-    ///@param p unsed in this function
-    ///@param distanceToLight not well defined because it's not a point light
     void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col) const override {
-        // the direction to the light is the opposite of the
-        // direction of the directional light source
-        dir = -direction;
+        // 从给定点p的角度看，光的dir和col（通过引用返回）
+        dir = -direction; // a;ready normalized
         col = color;
     }
 
-    void turnOn(int idx) const override { // TODO what
+    void turnOn(int idx) const override {
         glEnable(GL_LIGHT0 + idx);
+        // 最后一个参数0~1为距离衰减, 0表示方向光
         glLightfv(GL_LIGHT0 + idx, GL_DIFFUSE, Vector4f(color, 1.0));
         glLightfv(GL_LIGHT0 + idx, GL_SPECULAR, Vector4f(color, 1.0));
-        // Last component is 0.0, indicating directional light.
         glLightfv(GL_LIGHT0 + idx, GL_POSITION, Vector4f(-direction, 0.0));
     }
 
@@ -50,7 +47,7 @@ private:
 
 };
 
-class PointLight : public Light {
+class PointLight : public Light { // 点光源
 public:
     PointLight() = delete;
 
@@ -62,15 +59,15 @@ public:
     ~PointLight() override = default;
 
     void getIllumination(const Vector3f &p, Vector3f &dir, Vector3f &col) const override {
-        // the direction to the light is the opposite of the
-        // direction of the directional light source
+        // 从给定点p的角度看，光的dir和col（通过引用返回）
         dir = (position - p);
         dir = dir / dir.length();
         col = color;
     }
 
-    void turnOn(int idx) const override { // TODO what
+    void turnOn(int idx) const override { 
         glEnable(GL_LIGHT0 + idx);
+        // 最后一个参数0~1为距离衰减, 1表示不衰减
         glLightfv(GL_LIGHT0 + idx, GL_DIFFUSE, Vector4f(color, 1.0));
         glLightfv(GL_LIGHT0 + idx, GL_SPECULAR, Vector4f(color, 1.0));
         glLightfv(GL_LIGHT0 + idx, GL_POSITION, Vector4f(position, 1.0));

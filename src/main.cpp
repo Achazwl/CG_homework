@@ -24,7 +24,7 @@ CameraController *cameraController;
 int imgW, imgH;
 string savePicturePath;
 
-void screenCapture() { // TODO what
+void screenCapture() {
     Image openglImg(imgW, imgH);
     auto *pixels = new unsigned char[3 * imgW * imgH];
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
@@ -45,7 +45,7 @@ void screenCapture() { // TODO what
 }
 
 //  Called when mouse button is pressed.
-void mouseFunc(int button, int state, int x, int y) { // TODO what
+void mouseFunc(int button, int state, int x, int y) {
     if (state == GLUT_DOWN) {
 
         switch (button) {
@@ -67,13 +67,13 @@ void mouseFunc(int button, int state, int x, int y) { // TODO what
 }
 
 // Called when mouse is moved while button pressed.
-void motionFunc(int x, int y) { // TODO what
+void motionFunc(int x, int y) {
     cameraController->mouseDrag(x, y);
     glutPostRedisplay();
 }
 
 // Called when the window is resized
-void reshapeFunc(int w, int h) { // TODO what
+void reshapeFunc(int w, int h) {
     sceneParser->getCamera()->resize(w, h);
     glViewport(0, 0, w, h);
     imgW = w;
@@ -104,18 +104,17 @@ void drawScene() { // TODO what
     }
 }
 
-float getCenterDepth() { // TODO what
+float getCenterDepth() { // 深度相机， 先测深度
     Camera *cam = sceneParser->getCamera();
-    Ray centerRay = sceneParser->getCamera()->generateRay(
-            Vector2f((float) cam->getWidth() / 2, (float) cam->getHeight() / 2));
+    Ray centerRay = cam->generateRay(Vector2f(cam->getCx(), cam->getCy());
     Hit hit;
     bool isHit = sceneParser->getGroup()->intersect(centerRay, hit, 0.0);
-    return isHit ? hit.getT() : 10.0f;
+    return isHit ? hit.getT() : 10.0f; // 测不出，就设个默认值
 }
 
-int main(int argc, char *argv[]) { // TODO what
+int main(int argc, char *argv[]) {
     for (int argNum = 1; argNum < argc; ++argNum) {
-        std::cout << "Argument " << argNum << " is: " << argv[argNum] << std::endl;
+        cout << "Argument " << argNum << " is: " << argv[argNum] << endl;
     }
 
     if (argc != 3 && argc != 2) {
@@ -128,10 +127,10 @@ int main(int argc, char *argv[]) { // TODO what
     sceneParser = new SceneParser(argv[1]);
     Camera *cam = sceneParser->getCamera();
     float lookAtDistance = getCenterDepth();
-    cameraController = new CameraController(dynamic_cast<PerspectiveCamera *>(cam), lookAtDistance);
+    cout << "Look At Distance = " << lookAtDistance << endl;
+    cameraController = new CameraController(dynamic_cast<PerspectiveCamera*>(cam), lookAtDistance);
 
     if (argc == 3) savePicturePath = argv[2];
-    cout << "Look At Distance = " << lookAtDistance << endl;
 
     // Initialize GLUT
     glutInit(&argc, argv);
@@ -164,4 +163,3 @@ int main(int argc, char *argv[]) { // TODO what
 
     return 0;
 }
-

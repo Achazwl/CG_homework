@@ -22,12 +22,15 @@ public:
         return true;
     }
 
-    void drawGL() override { // TODO what
-        Object3D::drawGL();
-        glMatrixMode(GL_MODELVIEW); glPushMatrix();
-        glTranslatef(center.x(), center.y(), center.z());
-        glutSolidSphere(radius, 80, 80);
-        glPopMatrix();
+    void drawGL() override {
+        Object3D::drawGL(); // base class func
+        
+        glMatrixMode(GL_MODELVIEW);
+        // 画圆没有指定圆画的函数，所以只能先将左边中心移过去，画完再把座标中心还原
+        glPushMatrix(); { // save cur coordinate location
+            glTranslatef(center.x(), center.y(), center.z()); // move to position
+            glutSolidSphere(radius, 80, 80); // use latitude & longtitude * QUADS to render sphere
+        } glPopMatrix(); // restore coordinate location
     }
 
 protected:

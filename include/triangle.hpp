@@ -14,7 +14,7 @@ public:
 	Triangle( const Vector3f& a, const Vector3f& b, const Vector3f& c, Material* m) : Object3D(m), vertices{a,b,c} {
         this->E1 = vertices[0] - vertices[1];
         this->E2 = vertices[0] - vertices[2];
-        normal = Vector3f::cross(E1, E2).normalized();
+        norm = Vector3f::cross(E1, E2).normalized();
     }
 
 	bool intersect(const Ray& ray,  Hit& hit, float tmin) override {
@@ -45,22 +45,23 @@ public:
         if (b < 0 || b > 1) return false;
         if (a + b > 1) return false;
 
-        // Vector3f::dot(ray.dir, normal) == det(ray.dir, E1, E2) where normal=cross(E1, E2)
+        // Vector3f::dot(ray.dir, norm) == det(ray.dir, E1, E2) where norm=cross(E1, E2)
         int sgn = div < 0 ? 1 : -1;
-        hit.set(t, material, normal * sgn);
+        hit.set(t, material, norm * sgn);
         return true;
 	}
 
-    void drawGL() override { // TODO what
-        Object3D::drawGL();
-        glBegin(GL_TRIANGLES);
-        glNormal3fv(normal);
-        glVertex3fv(vertices[0]); glVertex3fv(vertices[1]); glVertex3fv(vertices[2]);
-        glEnd();
+    void drawGL() override {
+        Object3D::drawGL(); // base class func
+        
+        glBegin(GL_TRIANGLES); {
+            glNormal3fv(norm);
+            glVertex3fv(vertices[0]); glVertex3fv(vertices[1]); glVertex3fv(vertices[2]);
+        } glEnd();
     }
 
 protected:
-    Vector3f normal;
+    Vector3f norm;
     Vector3f vertices[3];
     Vector3f E1, E2;
 };

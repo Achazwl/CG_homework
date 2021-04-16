@@ -21,22 +21,23 @@ public:
         return true;
     }
 
-    void drawGL() override { // TODO what
-        Object3D::drawGL();
-        Vector3f xAxis = Vector3f::RIGHT;
-        Vector3f yAxis = Vector3f::cross(norm, xAxis);
-        xAxis = Vector3f::cross(yAxis, norm);
-        const float planeSize = 10.0;
-        glBegin(GL_TRIANGLES);
-        glNormal3fv(norm);
-        glVertex3fv(d * norm + planeSize * xAxis + planeSize * yAxis);
-        glVertex3fv(d * norm - planeSize * xAxis - planeSize * yAxis);
-        glVertex3fv(d * norm + planeSize * xAxis - planeSize * yAxis);
-        glNormal3fv(norm);
-        glVertex3fv(d * norm + planeSize * xAxis + planeSize * yAxis);
-        glVertex3fv(d * norm - planeSize * xAxis + planeSize * yAxis);
-        glVertex3fv(d * norm - planeSize * xAxis - planeSize * yAxis);
-        glEnd();
+    void drawGL() override {
+        Object3D::drawGL(); // base class func
+        
+        auto yAxis = Vector3f::cross(norm, Vector3f::RIGHT); // any vector orthogonal to norm is ok
+        auto xAxis = Vector3f::cross(yAxis, norm);
+        // use d * norm as plane center, build x-y coordinate on that plane
+        const float planeSize = 10.0; // large finite plane instead of infinite plane
+        glBegin(GL_TRIANGLES); { // use 2 triangle instead of QUADS, since GPU render triangle
+            glNormal3fv(norm);
+            glVertex3fv(d * norm + planeSize * xAxis + planeSize * yAxis);
+            glVertex3fv(d * norm - planeSize * xAxis - planeSize * yAxis);
+            glVertex3fv(d * norm + planeSize * xAxis - planeSize * yAxis);
+            glNormal3fv(norm);
+            glVertex3fv(d * norm + planeSize * xAxis + planeSize * yAxis);
+            glVertex3fv(d * norm - planeSize * xAxis + planeSize * yAxis);
+            glVertex3fv(d * norm - planeSize * xAxis - planeSize * yAxis);
+        } glEnd();
     }
 
 protected:
@@ -46,5 +47,3 @@ protected:
 };
 
 #endif //PLANE_H
-		
-
