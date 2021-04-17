@@ -3,7 +3,7 @@
 #include <vecmath.h>
 #include <camera.hpp>
 
-class CameraController { // TODO how it works
+class CameraController {
 
 public:
     typedef enum { NONE, LEFT, MIDDLE, RIGHT } Button;

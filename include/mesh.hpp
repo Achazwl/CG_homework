@@ -34,7 +34,7 @@ public:
         return result;
     }
 
-    void drawGL() override { // TODO change brute force
+    void drawGL() override {
         for (int triId = 0; triId < (int) t.size(); ++triId) {
             TriangleIndex& triIndex = t[triId];
             Triangle triangle(v[triIndex[0]], v[triIndex[1]], v[triIndex[2]], material);

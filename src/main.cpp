@@ -81,7 +81,7 @@ void reshapeFunc(int w, int h) {
 }
 
 // This function is responsible for displaying the object.
-void drawScene() { // TODO what
+void drawScene() {
     Vector3f backGround = sceneParser->getBackgroundColor();
     glClearColor(backGround.x(), backGround.y(), backGround.z(), 1.0);
 
