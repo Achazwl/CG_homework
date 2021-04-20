@@ -7,7 +7,7 @@
 #include <sstream>
 
 Mesh::Mesh(const char *filename, Material *material) : Object3D(material) {
-    // Optional: Use tiny obj loader to replace this simple one.
+    // TODO: Optional: Use tiny obj loader to replace this simple one.
     std::ifstream f;
     f.open(filename);
     if (!f.is_open()) {

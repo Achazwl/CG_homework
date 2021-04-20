@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-PROJECT(PA2 CXX)
+PROJECT(PA3 CXX)
 
 IF(NOT CMAKE_BUILD_TYPE)
     SET(CMAKE_BUILD_TYPE Release)
@@ -21,14 +21,14 @@ FIND_PATH(GLUT_INCLUDE_SUBDIR
 
 ADD_SUBDIRECTORY(deps/vecmath)
 
-SET(PA2_SOURCES
+SET(PA3_SOURCES
         src/image.cpp
         src/main.cpp
         src/mesh.cpp
         src/scene_parser.cpp
         src/camera_controller.cpp)
 
-SET(PA2_INCLUDES
+SET(PA3_INCLUDES
         include/camera.hpp
         include/group.hpp
         include/hit.hpp
@@ -43,12 +43,14 @@ SET(PA2_INCLUDES
         include/sphere.hpp
         include/transform.hpp
         include/triangle.hpp
-        include/camera_controller.hpp)
+        include/camera_controller.hpp
+        include/curve.hpp
+        include/revsurface.hpp)
 
 SET(CMAKE_CXX_STANDARD 11)
 SET(CMAKE_CXX_FLAGS "-g -O3 -Wno-deprecated-declarations")
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
-ADD_EXECUTABLE(${PROJECT_NAME} ${PA2_SOURCES} ${PA2_INCLUDES})
+ADD_EXECUTABLE(${PROJECT_NAME} ${PA3_SOURCES} ${PA3_INCLUDES})
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} vecmath ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
 TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PRIVATE include ${OPENGL_INCLUDE_SUBDIR}  ${GLUT_INCLUDE_SUBDIR})

@@ -88,7 +88,7 @@ void drawScene() {
     // Clear the rendering window
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Setup MODELVIEW Matri
+    // Setup MODELVIEW Matrix
     sceneParser->getCamera()->setupGLMatrix();
 
     for (int idx = 0; idx < sceneParser->getNumLights(); ++idx)
@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
     glutInitWindowPosition(60, 60);
     glutInitWindowSize(cam->getWidth(), cam->getHeight());
-    glutCreateWindow("PA2 OpenGL");
+    glutCreateWindow("PA3 BezierSurface");
 
     // Depth testing must be turned on
     glEnable(GL_DEPTH_TEST);

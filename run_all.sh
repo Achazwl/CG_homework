@@ -21,10 +21,9 @@ cd ..
 
 # Run all testcases. 
 # You can comment some lines to disable the run of specific examples.
-bin/PA2 testcases/scene01_basic.txt
-bin/PA2 testcases/scene02_cube.txt
-bin/PA2 testcases/scene03_sphere.txt
-bin/PA2 testcases/scene04_axes.txt
-bin/PA2 testcases/scene05_bunny_200.txt
-bin/PA2 testcases/scene06_bunny_1k.txt
-bin/PA2 testcases/scene07_shine.txt
+bin/PA3 testcases/scene01_basic.txt
+bin/PA3 testcases/scene04_axes.txt
+bin/PA3 testcases/scene06_bunny_1k.txt
+bin/PA3 testcases/scene08_core.txt
+bin/PA3 testcases/scene09_norm.txt
+bin/PA3 testcases/scene10_wineglass.txt
