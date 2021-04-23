@@ -25,16 +25,16 @@ public:
     }
 
     bool intersect(const Ray &r, Hit &h, float tmin) override {
-        // (PA3 optional TODO): implement this for the ray-tracing routine using G-N iteration.
+        // TODO: (PA3 optional): implement this for the ray-tracing routine using G-N iteration.
         return false;
     }
 
     void drawGL() override {
         Object3D::drawGL();
 
-        // Definition for drawable surface.
+        // Definition for drawable surface.G-N
         typedef std::tuple<unsigned, unsigned, unsigned> Tup3u;
-        // Surface is just a struct that contains vertices, normals, and
+        // Surface is just a struct that contains vertices, normals, and G-N
         // faces.  VV[i] is the position of vertex i, and VN[i] is the normal
         // of vertex i.  A face is a triple i,j,k corresponding to a triangle
         // with (vertex i, normal i), (vertex j, normal j), ...
@@ -55,14 +55,14 @@ public:
             for (unsigned int i = 0; i < steps; ++i) {
                 float t = (float) i / steps;
                 Quat4f rot;
-                rot.setAxisAngle(t * 2 * 3.14159, Vector3f::UP);
-                Vector3f pnew = Matrix3f::rotation(rot) * cp.V;
-                Vector3f pNormal = Vector3f::cross(cp.T, -Vector3f::FORWARD);
-                Vector3f nnew = Matrix3f::rotation(rot) * pNormal;
+                rot.setAxisAngle(t * 2 * M_PI, Vector3f::UP);
+                Vector3f pnew = Matrix3f::rotation(rot) * cp.V; // 切线旋转
+                Vector3f pNormal = Vector3f::cross(cp.T, -Vector3f::FORWARD); // 切线转法线
+                Vector3f nnew = Matrix3f::rotation(rot) * pNormal; // 法线旋转
                 surface.VV.push_back(pnew);
                 surface.VN.push_back(nnew);
                 int i1 = (i + 1 == steps) ? 0 : i + 1;
-                if (ci != curvePoints.size() - 1) {
+                if (ci != curvePoints.size() - 1) { // 相邻curve对应点相连，若干矩形
                     surface.VF.emplace_back((ci + 1) * steps + i, ci * steps + i1, ci * steps + i);
                     surface.VF.emplace_back((ci + 1) * steps + i, (ci + 1) * steps + i1, ci * steps + i1);
                 }
